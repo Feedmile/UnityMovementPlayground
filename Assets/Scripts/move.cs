@@ -17,7 +17,7 @@ public class move : MonoBehaviour
     private float _verticalDirection;
     private bool _onCrouch;
     private bool _changingDirection => (_rb.velocity.x > 0f && _horizontalDirection < 0f) || (_rb.velocity.x < 0f && _horizontalDirection > 0f);
-    private bool _canMove => !_wallGrab;
+    private bool _canMove => !_wallSlide && !_wallGrab;
 
     [Header("Jump Variables")]
     [SerializeField] private float _jumpForce = 15f;
@@ -31,7 +31,7 @@ public class move : MonoBehaviour
     [SerializeField] private float _wallJumpXVelocityHaltDelay = 0.2f;
     private bool _wallSlide => _onWall && !_onGround && _rb.velocity.y <= 0f;   
     private bool _wallGrab => _onWall && !_onGround;
-    private bool _canJump => Input.GetButtonDown("Jump") && ((_onGround || _extraJumpValue > 0) && !_onCrouch) || _onWall;
+    private bool _canJump => Input.GetButtonDown("Jump") && (((_onGround || _extraJumpValue > 0) && !_onCrouch) || _onWall);
     private bool _isJumping = false;
     [Header("Dash Variables")]
     [SerializeField] private float _dashSpeed = 15f;
@@ -67,22 +67,22 @@ public class move : MonoBehaviour
         {
             if(_onWall && !_onGround)
             {
-                if (_onRightWall && _horizontalDirection > 0f || !_onRightWall && _horizontalDirection < 0f)
-                {
-                    StartCoroutine(NeutralWallJump());
-                }
-                else
-                {
-                    WallJump();
-                }
+                WallJump();
                 Flip();
             }
             else
             {
                 Jump(Vector2.up);
             }
+            
         }
+       
         
+
+
+        Debug.Log("can jump:" + _isJumping);
+        Debug.Log("can move"+_canMove);
+        //Debug.Log(_rb.velocity);
         //Debug.Log("can dash is:"+_canDash);
         //Debug.Log("onGround is:" + _onGround);
         //Debug.Log("crouch is:" + _onCrouch);
