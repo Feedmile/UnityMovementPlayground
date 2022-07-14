@@ -10,6 +10,7 @@ public class move : MonoBehaviour
     [Header("Components")]
     private Rigidbody2D _rb;
     private Animator _anim;
+    private string currentState;
     
     [Header("Movement Variables")]
     [SerializeField] private float _movementAcceleration = 75f;
@@ -18,7 +19,7 @@ public class move : MonoBehaviour
     private float _horizontalDirection;
     private float _verticalDirection;
     private bool _facingRight = true;
-    
+    private bool _isMoving => _horizontalDirection != 0;
     private bool _onCrouch;
     private bool _changingDirection => (_rb.velocity.x > 0f && _horizontalDirection < 0f) || (_rb.velocity.x < 0f && _horizontalDirection > 0f);
     private bool _canMove => !_wallSlide && !_inAir;
@@ -30,21 +31,24 @@ public class move : MonoBehaviour
     [SerializeField] private float _lowJumpFallMultiplier = 5f;
     [SerializeField] private int _extraJumps = 1;
     private int _extraJumpValue;
+    private bool _isFalling;
+    private bool _isJumping;
+    private bool _isSJumping;
     [Header("Wall Movement Variables")]
     [SerializeField] private float _wallSlideModifier = .5f;
 
     private bool _wallSlide => _onWall && !_onGround && _rb.velocity.y <= 0f;   
     
     private bool _canJump => Input.GetButtonDown("Jump") && (((_onGround || _extraJumpValue > 0) && !_onCrouch) || _onWall);
-    private bool _isJumping = false;
+    
     [Header("Dash Variables")]
-    [SerializeField] private float _dashSpeed = 15f;
+    [SerializeField] private float _dashSpeed = 10f;
     [SerializeField] private float _dashLength = .3f;
-    [SerializeField] private float _dashBufferlength = .2f;
+    [SerializeField] private float _dashBufferlength = .3f;
     private float _dashbufferCounter;
     private bool _isDashing;
     private bool _hasDashed;
-    private bool _canDash =>_dashbufferCounter > 0 && !_hasDashed ;
+    private bool _canDash =>_dashbufferCounter > 0 && !_hasDashed &&  !(_horizontalDirection == 0 && _verticalDirection == 0);
     [Header("Ground Collision Variables")]
     [SerializeField] private float _groundRaycastLength;
     [SerializeField] private Vector3 _groundRaycastOffset;
@@ -53,6 +57,15 @@ public class move : MonoBehaviour
     [SerializeField] private float _wallRaycastLength;
     private bool _onWall;
     private bool _onRightWall;
+    //Animation States
+    const string IDLE = "Idle";
+    const string RUN = "Run";
+    const string JUMP = "Jump";
+    const string FALLING = "Falling";
+    const string WALLSLIDE = "WallSlide";
+    const string DASH = "Dash";
+    const string SJUMP = "SJump";
+    const string LANDING = "Landing";
 
 
     // Start is called before the first frame update
@@ -82,28 +95,36 @@ public class move : MonoBehaviour
             }
             
         }
-        Animation();
+        
 
 
 
     }
     private void FixedUpdate()
     {
+        
         CheckCollisions();
-        if (_canDash && !_onWall)StartCoroutine( Dash(_horizontalDirection));
+       
         if (_canMove) MoveCharacter();
         if (_onGround)
         {
+            _isFalling = false;
+            
             ApplyLinearDrag();
             _extraJumpValue = _extraJumps;
             _rb.gravityScale = 1f;
-            
+            if (_onWall) StickToWall();
         }
         else
         {
             ApplyAirLinearDrag();
             FallMultiplier();
-            if (!_onWall || _rb.velocity.y < 0f) _isJumping = false;
+            if (_rb.velocity.y < 0f)
+            {
+                _isJumping = false;
+                
+            } 
+            if (_rb.velocity.y < 0f && !_wallSlide) _isFalling = true;
         }
     
         if (!_isJumping)
@@ -111,14 +132,62 @@ public class move : MonoBehaviour
             if (_wallSlide) WallSlide();
             if (_onWall) StickToWall();
         }
+        if (_canDash && !_onWall) StartCoroutine(Dash(_horizontalDirection));
+        _anim.SetBool("onGround", _onGround);
+        _anim.SetFloat("horizontalDirection", Mathf.Abs(_horizontalDirection));
+        Animation();
         //ScalePlayer();
-        
+
+    }
+    private void ChangeAnimationState(string newState)
+    {
+        if (currentState == newState) return;
+        _anim.Play(newState);
     }
     private Vector2 GetInput() 
     {
         return new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); 
     }
     private void Animation()
+    {
+        Debug.Log("dashing is:" + _isDashing);
+        //if (!_isFalling && !_isMoving && !_isDashing )
+        //{
+
+        //    ChangeAnimationState(IDLE);
+        //}
+        if ((_horizontalDirection < 0f && _facingRight || _horizontalDirection > 0f && !_facingRight) && !_wallSlide)
+        {
+            Flip();
+        }
+        //if (_isMoving && !_isJumping && !_isFalling && _horizontalDirection != 0 && !_wallSlide && !_isDashing)
+        //{
+        //    ChangeAnimationState(RUN);
+        //    if (!_isMoving)
+        //    {
+        //        ChangeAnimationState(IDLE);
+        //    }
+        //}
+        if (_isJumping && !_isFalling && !_isDashing && _dashbufferCounter < 0f && !_isSJumping)
+        {
+            
+            ChangeAnimationState(JUMP);
+        }
+        if (_isFalling && !_inAir && !_isDashing && !_onGround && !_isJumping && !_isSJumping)
+        {
+            
+            ChangeAnimationState(FALLING);
+        }
+        if (_wallSlide )
+        {
+            ChangeAnimationState(WALLSLIDE);
+        }
+        if (_isDashing && !_onWall)
+        {
+            ChangeAnimationState(DASH);
+        }
+    }
+    /*private void Animation()
     {
         if (_isDashing)
         {
@@ -169,7 +238,7 @@ public class move : MonoBehaviour
             
         }
         
-    }
+    }*/
     private void ScalePlayer()
     {
         var scale = transform.localScale;
@@ -214,22 +283,25 @@ public class move : MonoBehaviour
     }
     private void MoveCharacter()
     {
-        
+
         if (!_onCrouch && !_isDashing)
         {
+            
             _rb.AddForce(new Vector2(_horizontalDirection, 0f) * _movementAcceleration);
             if (Mathf.Abs(_rb.velocity.x) > _maxMoveSpeed)
             {
                 _rb.velocity = new Vector2(Mathf.Sign(_rb.velocity.x) * _maxMoveSpeed, _rb.velocity.y);
             }
+
         }
+        
         if (_verticalDirection < 0f && _dashbufferCounter < 0 && !_isDashing && !_onWall)
         {
             _onCrouch = true;
             _horizontalDirection = 0f;
         }
         else _onCrouch = false;
-
+        
         
 
 
@@ -256,7 +328,9 @@ public class move : MonoBehaviour
 
     private void Jump(Vector2 direction)
     {
+        _isFalling = false;
         _isJumping = true;
+        _isSJumping = false;
         if (!_onGround && !_onWall)
         {
             --_extraJumpValue;
@@ -273,30 +347,33 @@ public class move : MonoBehaviour
             float dashStartTime = Time.time;
             _hasDashed = true;
             _isDashing = true;
-            _onGround = false;
-            Vector2 dir = new Vector2(0f, 0f);
-            if (x != 0f) dir = new Vector2(x, 0f);
+            
+        Vector2 dir = new Vector2(0f, 0f);
+            if (x != 0f) dir = new Vector2(x, -.4f);
         while (Time.time < dashStartTime + _dashLength)
         {
             _rb.velocity = dir.normalized * _dashSpeed;
             yield return null;
         }
-        _isDashing = false;
-        _hasDashed = false;
+        
         if (_onGround && !_onWall)
         {
-            _isJumping = true;
-            _rb.AddForce(Vector2.up * _jumpForce/2, ForceMode2D.Impulse);
-        }
-        
+            
+            _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+            _isSJumping = true;
 
-        
+        }
+        _isDashing = false;
+        _hasDashed = false;
+
+
 
     }
     
     private void WallSlide()
     {
-
+        _isFalling= false;
+        _isJumping= false;
         _rb.velocity = new Vector2(_rb.velocity.x, -_maxMoveSpeed * _wallSlideModifier);
         
 
@@ -304,6 +381,7 @@ public class move : MonoBehaviour
     }
     private IEnumerator WallJump()
     {
+        Flip();
         float jumpTime = Time.time;
         Vector2 jumpDirection = _onRightWall ?  Vector2.left : Vector2.right;
         Jump(Vector2.up * 1.2f + jumpDirection);
@@ -318,7 +396,11 @@ public class move : MonoBehaviour
    
     private void StickToWall()
     {
-        if(_onRightWall && _horizontalDirection >= 0f)
+        _isFalling = false;
+        _isJumping = false;
+        _isSJumping= false;
+        _isDashing=false;
+        if (_onRightWall && _horizontalDirection >= 0f)
         {
             _rb.velocity = new Vector2(4f, _rb.velocity.y);
             
@@ -329,16 +411,7 @@ public class move : MonoBehaviour
             
         }
 
-        if (_onRightWall && _facingRight)
-        {
-            Debug.Log("flipped not right");
-            Flip();
-        }
-        else if (!_onRightWall && !_facingRight)
-        {
-            Debug.Log("flipped right");
-            Flip();
-        }
+        
 
 
     }
