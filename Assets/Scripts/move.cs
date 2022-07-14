@@ -9,16 +9,20 @@ public class move : MonoBehaviour
     [SerializeField] private LayerMask _wallLayer;
     [Header("Components")]
     private Rigidbody2D _rb;
+    private Animator _anim;
+    
     [Header("Movement Variables")]
     [SerializeField] private float _movementAcceleration = 75f;
     [SerializeField] private float _maxMoveSpeed = 5f;
     [SerializeField] private float _linearDrag = 10f;
     private float _horizontalDirection;
     private float _verticalDirection;
+    private bool _facingRight = true;
+    
     private bool _onCrouch;
     private bool _changingDirection => (_rb.velocity.x > 0f && _horizontalDirection < 0f) || (_rb.velocity.x < 0f && _horizontalDirection > 0f);
-    private bool _canMove => !_wallSlide && !_wallGrab;
-
+    private bool _canMove => !_wallSlide && !_inAir;
+    private bool _inAir = false;
     [Header("Jump Variables")]
     [SerializeField] private float _jumpForce = 15f;
     [SerializeField] private float _airLinearDrag = 2.5f;
@@ -28,9 +32,9 @@ public class move : MonoBehaviour
     private int _extraJumpValue;
     [Header("Wall Movement Variables")]
     [SerializeField] private float _wallSlideModifier = .5f;
-    [SerializeField] private float _wallJumpXVelocityHaltDelay = 0.2f;
+
     private bool _wallSlide => _onWall && !_onGround && _rb.velocity.y <= 0f;   
-    private bool _wallGrab => _onWall && !_onGround;
+    
     private bool _canJump => Input.GetButtonDown("Jump") && (((_onGround || _extraJumpValue > 0) && !_onCrouch) || _onWall);
     private bool _isJumping = false;
     [Header("Dash Variables")]
@@ -55,10 +59,12 @@ public class move : MonoBehaviour
     void Start()
     {
        _rb = GetComponent<Rigidbody2D>();
+       _anim = GetComponent<Animator>();
     }
     // Update is called once per frame
     void Update()
     {
+        
         _horizontalDirection = GetInput().x;
         _verticalDirection = GetInput().y;
         if (Input.GetKeyUp("left shift") && Input.GetButton("Horizontal") && !_onCrouch) _dashbufferCounter = _dashBufferlength;
@@ -67,8 +73,8 @@ public class move : MonoBehaviour
         {
             if(_onWall && !_onGround)
             {
-                WallJump();
-                Flip();
+                StartCoroutine(WallJump());
+                
             }
             else
             {
@@ -76,17 +82,7 @@ public class move : MonoBehaviour
             }
             
         }
-       
-        
-
-
-        Debug.Log("can jump:" + _isJumping);
-        Debug.Log("can move"+_canMove);
-        //Debug.Log(_rb.velocity);
-        //Debug.Log("can dash is:"+_canDash);
-        //Debug.Log("onGround is:" + _onGround);
-        //Debug.Log("crouch is:" + _onCrouch);
-        //Debug.Log("vel is :" + _rb.velocity.y);
+        Animation();
 
 
 
@@ -94,15 +90,14 @@ public class move : MonoBehaviour
     private void FixedUpdate()
     {
         CheckCollisions();
-        if (_canDash) StartCoroutine(Dash(_horizontalDirection, _verticalDirection));
+        if (_canDash && !_onWall)StartCoroutine( Dash(_horizontalDirection));
         if (_canMove) MoveCharacter();
-        else _rb.velocity = Vector2.Lerp(_rb.velocity, (new Vector2(_horizontalDirection * _maxMoveSpeed, _rb.velocity.y)), .5f * Time.deltaTime);
         if (_onGround)
         {
             ApplyLinearDrag();
             _extraJumpValue = _extraJumps;
             _rb.gravityScale = 1f;
-           
+            
         }
         else
         {
@@ -110,22 +105,116 @@ public class move : MonoBehaviour
             FallMultiplier();
             if (!_onWall || _rb.velocity.y < 0f) _isJumping = false;
         }
-        //if (_wallGrab) WallGrab();
+    
         if (!_isJumping)
         {
             if (_wallSlide) WallSlide();
             if (_onWall) StickToWall();
         }
+        //ScalePlayer();
         
     }
     private Vector2 GetInput() 
     {
         return new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); 
     }
-    private void MoveCharacter()
+    private void Animation()
+    {
+        if (_isDashing)
+        {
+            _anim.SetBool("isDashing", true);
+            _anim.SetBool("isGrounded", false);
+            _anim.SetBool("isFalling", false);
+            _anim.SetBool("isJumping", false);
+            _anim.SetFloat("horizontalDirection", 0f);
+        }
+        if((_horizontalDirection <  0f && _facingRight || _horizontalDirection > 0f && !_facingRight) && !_wallSlide)
+        {
+            Flip();
+        }
+        if (_onGround)
+        {
+           
+            _anim.SetBool("wallSlide", false);
+            _anim.SetBool("isFalling", false);
+            _anim.SetBool("isGrounded", true);
+            _anim.SetFloat("horizontalDirection", Mathf.Abs(_horizontalDirection));
+            
+        }
+        else
+        {
+            _anim.SetBool("isGrounded", false);
+        }
+        if (_isJumping)
+        {
+            _anim.SetBool("isJumping", true);
+            _anim.SetBool("isFalling", false);
+            _anim.SetBool("wallSlide", false);
+        }
+        else
+        {
+            _anim.SetBool("isJumping", false);
+            if (_wallSlide)
+            {
+                _anim.SetBool("wallSlide", true);
+                _anim.SetBool("isFalling", false);
+
+            }
+            else if (_rb.velocity.y < 0f)
+            {
+                _anim.SetBool("isFalling", true);
+                _anim.SetBool("wallSlide", false);
+                
+            }
+            
+        }
+        
+    }
+    private void ScalePlayer()
     {
         var scale = transform.localScale;
         var position = transform.position;
+
+        if (_onCrouch && !_isDashing && !_onWall) { 
+            scale.y = .5f;
+            scale.x = .5f;
+            position.y -= scale.y / 2.5f;
+            transform.position = position;
+            transform.localScale = scale;
+        }
+        else if (_isDashing && !_onCrouch && !_onWall)
+        {
+            if (_onWall)
+            {
+                scale.x = .5f;
+                scale.y = 1f;
+                transform.localScale = scale;
+
+            }
+            scale.x = 1f;
+            scale.y = .5f;
+            position.y -= scale.y / 2.5f;
+            transform.position = position;
+            transform.localScale = scale;
+            
+        }
+        
+        else
+        {
+            _onCrouch = false;
+            if (_onGround || _onWall)
+            {
+
+                scale.x = 2f;
+                scale.y = 2f;
+                transform.localScale = scale;
+            }
+        }
+        
+    }
+    private void MoveCharacter()
+    {
+        
         if (!_onCrouch && !_isDashing)
         {
             _rb.AddForce(new Vector2(_horizontalDirection, 0f) * _movementAcceleration);
@@ -134,40 +223,17 @@ public class move : MonoBehaviour
                 _rb.velocity = new Vector2(Mathf.Sign(_rb.velocity.x) * _maxMoveSpeed, _rb.velocity.y);
             }
         }
-        if (_verticalDirection < 0f && _dashbufferCounter < 0 && !_isDashing)
+        if (_verticalDirection < 0f && _dashbufferCounter < 0 && !_isDashing && !_onWall)
         {
             _onCrouch = true;
-           
-            scale.y = .5f;
-            scale.x = .5f;
-            position.y -= scale.y / 2;
-            transform.position = position;
-            transform.localScale = scale;
             _horizontalDirection = 0f;
         }
-        else if(_dashbufferCounter >0 && !_onCrouch)
-        {
-            scale.x = 1f;
-            scale.y = .5f;
-            position.y -= scale.y / 2;
-            transform.position = position;
-            transform.localScale = scale;
-        }
-        else
-        {
-            _onCrouch = false;
-            if (_onGround)
-            {
-                
-                scale.x = .5f;
-                scale.y = 1f;
-                transform.localScale = scale;
-            }
-            
+        else _onCrouch = false;
 
-            
-        }
-    
+        
+
+
+
     }
     private void ApplyLinearDrag()
     {
@@ -190,15 +256,18 @@ public class move : MonoBehaviour
 
     private void Jump(Vector2 direction)
     {
+        _isJumping = true;
         if (!_onGround && !_onWall)
         {
             --_extraJumpValue;
         }
         _rb.velocity = new Vector2(_rb.velocity.x, 0f);
         _rb.AddForce(direction * _jumpForce, ForceMode2D.Impulse);
-        _isJumping = true;
+      
+
+        
     }
-    private IEnumerator Dash(float x, float y)
+    private IEnumerator Dash(float x)
     {
         
             float dashStartTime = Time.time;
@@ -206,61 +275,76 @@ public class move : MonoBehaviour
             _isDashing = true;
             _onGround = false;
             Vector2 dir = new Vector2(0f, 0f);
-            if (x != 0f || y != 0f) dir = new Vector2(x, y);
-
-            while (Time.time < dashStartTime + _dashLength)
-            {
-                _rb.velocity = dir.normalized * _dashSpeed;
-                yield return null;
-            }
-        if (_onGround)
+            if (x != 0f) dir = new Vector2(x, 0f);
+        while (Time.time < dashStartTime + _dashLength)
         {
-
+            _rb.velocity = dir.normalized * _dashSpeed;
+            yield return null;
+        }
+        _isDashing = false;
+        _hasDashed = false;
+        if (_onGround && !_onWall)
+        {
+            _isJumping = true;
             _rb.AddForce(Vector2.up * _jumpForce/2, ForceMode2D.Impulse);
         }
         
 
-        _isDashing = false;
-        _hasDashed = false;
+        
 
     }
-    private void WallGrab()
-    {
-        _rb.gravityScale = 0f;
-        _rb.velocity = new Vector2(_rb.velocity.x, 0f);
-    }
+    
     private void WallSlide()
     {
+
         _rb.velocity = new Vector2(_rb.velocity.x, -_maxMoveSpeed * _wallSlideModifier);
+        
+
+
     }
-    private void WallJump()
+    private IEnumerator WallJump()
     {
+        float jumpTime = Time.time;
         Vector2 jumpDirection = _onRightWall ?  Vector2.left : Vector2.right;
-        Jump(Vector2.up + jumpDirection);
+        Jump(Vector2.up * 1.2f + jumpDirection);
+        while (Time.time < jumpTime + 0.1f)
+        {
+            _inAir = true;      
+            yield return null;
+        }
+        _inAir = false;
+        
     }
-    private IEnumerator NeutralWallJump()
-    {
-        Vector2 jumpDirection = _onRightWall ? Vector2.left : Vector2.right;
-        Jump(Vector2.up + jumpDirection);
-        yield return new WaitForSeconds(_wallJumpXVelocityHaltDelay);
-        _rb.velocity = new Vector2(0f, _rb.velocity.y);
-    }
+   
     private void StickToWall()
     {
         if(_onRightWall && _horizontalDirection >= 0f)
         {
-            _rb.velocity = new Vector2(1f, _rb.velocity.y);
+            _rb.velocity = new Vector2(4f, _rb.velocity.y);
+            
         }
         else if (!_onRightWall && _horizontalDirection <= 0f)
         {
-            _rb.velocity = new Vector2(-1f, _rb.velocity.y);
+            _rb.velocity = new Vector2(-4f, _rb.velocity.y);
+            
         }
 
-        if (_onRightWall) Flip();
-        else if (!_onRightWall) Flip();
+        if (_onRightWall && _facingRight)
+        {
+            Debug.Log("flipped not right");
+            Flip();
+        }
+        else if (!_onRightWall && !_facingRight)
+        {
+            Debug.Log("flipped right");
+            Flip();
+        }
+
+
     }
     private void Flip()
     {
+        _facingRight = !_facingRight;
         transform.Rotate(0f, 180f, 0f);
     }
     private void FallMultiplier()
@@ -293,6 +377,13 @@ public class move : MonoBehaviour
             Physics2D.Raycast(transform.position, Vector2.left, _wallRaycastLength, _wallLayer);
 
         _onRightWall = Physics2D.Raycast(transform.position, Vector2.right, _wallRaycastLength, _wallLayer);
+        if(_isDashing)
+        {
+            _onWall = Physics2D.Raycast(transform.position, Vector2.right, .54f, _wallLayer) ||
+            Physics2D.Raycast(transform.position, Vector2.left, .54f, _wallLayer);
+
+            _onRightWall = Physics2D.Raycast(transform.position, Vector2.right, .54f, _wallLayer);
+        }
     }
 
     private void OnDrawGizmos()
