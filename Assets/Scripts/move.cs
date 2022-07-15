@@ -13,7 +13,7 @@ public class move : MonoBehaviour
     private Animator _anim;
     private string currentState;
     private bool _isDelay = false;
-    
+
     [Header("Movement Variables")]
     [SerializeField] private float _movementAcceleration = 75f;
     [SerializeField] private float _maxMoveSpeed = 5f;
@@ -51,7 +51,7 @@ public class move : MonoBehaviour
     private float _dashbufferCounter;
     private bool _isDashing;
     private bool _hasDashed;
-    private bool _canDash =>_dashbufferCounter > 0 &&!_isDelay && !_hasDashed &&  !(_horizontalDirection == 0 && _verticalDirection == 0) ;
+    private bool _canDash =>_dashbufferCounter > 0 &&!_isDelay  && !_hasDashed &&  !(_horizontalDirection == 0 && _verticalDirection == 0) ;
     [Header("Ground Collision Variables")]
     [SerializeField] private float _groundRaycastLength;
     [SerializeField] private Vector3 _groundRaycastOffset;
@@ -113,6 +113,7 @@ public class move : MonoBehaviour
         if (_canMove) MoveCharacter();
         if (_onGround)
         {
+            _isJumping = false;
             _isFalling = false;
             _inAir = false;
             _fastJump = false;
@@ -133,7 +134,12 @@ public class move : MonoBehaviour
             {
                 _isJumping = false;
                 
-            } 
+            }
+            if (_rb.velocity.y > 0f)
+            {
+                _isJumping = true;
+
+            }
             if (_rb.velocity.y < 0f && !_wallSlide) _isFalling = true;
         }
     
@@ -149,6 +155,8 @@ public class move : MonoBehaviour
         if (_canDash && !_onWall) StartCoroutine(Dash(_horizontalDirection));
         if (_onWall) _isDelay = false;
 
+        Debug.Log("jump state" + _isJumping);
+        Debug.Log(_facingRight);
         //Animation
         _anim.SetBool("isCrouching", _onCrouch);
         _anim.SetBool("isDashing", _isDashing);
@@ -172,7 +180,12 @@ public class move : MonoBehaviour
         while (!_anim.GetCurrentAnimatorStateInfo(0).IsName(name))
         {
             _isDelay = true;
-
+            if (_onWall)
+            {
+                _isDelay = false;
+                yield return null;
+                break;
+            }
             yield return null;
 
         }
@@ -219,7 +232,7 @@ public class move : MonoBehaviour
             
             ChangeAnimationState(STAND);
         }
-        if(_verticalDirection == -1 && (_isJumping || _isFalling) && !_onWall)
+        if(_verticalDirection == -1 &&!_isDashing && (_isJumping || _isFalling) && !_onWall)
         {
             
             ChangeAnimationState(FASTJUMP);
@@ -283,6 +296,13 @@ public class move : MonoBehaviour
         {
             _isDashing = true;
             _rb.velocity = dir.normalized * _dashSpeed;
+            if (_onWall)
+            {
+                _isDashing = false;
+                
+                yield return null;
+                break;
+            }
             yield return null;
         }
         if (_onGround && !_onWall)
@@ -295,14 +315,21 @@ public class move : MonoBehaviour
     }
     private IEnumerator WallJump()
     {
-        Flip();
+        
+       _inAir = true;
         float jumpTime = Time.time;
         Vector2 jumpDirection = _onRightWall ? Vector2.left : Vector2.right;
         Jump(Vector2.up * 1.2f + jumpDirection);
-        
+        Flip();
         while (Time.time < jumpTime + 0.3f)
         {
             _inAir = true;
+            if (_onGround)
+            {
+                _inAir = false;           
+                yield return null;
+                break;
+            }
             yield return null;
         }
         _inAir = false;
@@ -330,6 +357,15 @@ public class move : MonoBehaviour
         _isFalling = false;
         _isJumping = false;
         _isDelay = false;
+        if (!_facingRight)
+        {
+            Flip();
+        }
+        else if(_facingRight)
+        {
+            Flip();
+        }
+        
         _rb.velocity = new Vector2(_rb.velocity.x, -_maxMoveSpeed * _wallSlideModifier);
         
     }
@@ -350,11 +386,22 @@ public class move : MonoBehaviour
     }
     private void Flip()
     {
-        if (!_isDelay)
+        if (_onWall && _facingRight && !_onRightWall)
         {
             _facingRight = !_facingRight;
             transform.Rotate(0f, 180f, 0f);
         }
+        if (!_facingRight && _onRightWall)
+        {
+            _facingRight = !_facingRight;
+            transform.Rotate(0f, 180f, 0f);
+        }
+        if(_onGround || _isJumping || _isFalling || _inAir)
+        {
+            _facingRight = !_facingRight;
+            transform.Rotate(0f, 180f, 0f);
+        }
+        
         
     }
     private void FallMultiplier()
