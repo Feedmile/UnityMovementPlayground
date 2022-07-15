@@ -1910,7 +1910,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: zerox4sheet_94
+      name: walljump
       rect:
         serializedVersion: 2
         x: 5
@@ -1931,7 +1931,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: zerox4sheet_95
+      name: walljump2
       rect:
         serializedVersion: 2
         x: 60
@@ -1952,7 +1952,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: zerox4sheet_96
+      name: walljump3
       rect:
         serializedVersion: 2
         x: 118
@@ -1973,7 +1973,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: zerox4sheet_97
+      name: walljump4
       rect:
         serializedVersion: 2
         x: 194
@@ -1994,7 +1994,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: zerox4sheet_98
+      name: walljump5
       rect:
         serializedVersion: 2
         x: 292
@@ -2015,7 +2015,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: zerox4sheet_99
+      name: walljump6
       rect:
         serializedVersion: 2
         x: 402
@@ -2036,7 +2036,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: zerox4sheet_100
+      name: walljump7
       rect:
         serializedVersion: 2
         x: 464
@@ -2057,7 +2057,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: zerox4sheet_101
+      name: walljump8
       rect:
         serializedVersion: 2
         x: 524
@@ -3737,7 +3737,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: zerox4sheet_181
+      name: stand0
       rect:
         serializedVersion: 2
         x: 150
@@ -3758,7 +3758,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: zerox4sheet_182
+      name: stand
       rect:
         serializedVersion: 2
         x: 194
@@ -3779,7 +3779,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: zerox4sheet_183
+      name: stand2
       rect:
         serializedVersion: 2
         x: 237
@@ -3800,7 +3800,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: zerox4sheet_184
+      name: stand3
       rect:
         serializedVersion: 2
         x: 282
@@ -3821,7 +3821,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: zerox4sheet_185
+      name: stand4
       rect:
         serializedVersion: 2
         x: 328
@@ -4213,20 +4213,20 @@ TextureImporter:
       jump: -1833909170
       zerox4sheet_167: -1274574741
       zerox4sheet_14: -1373367494
-      zerox4sheet_183: 764786323
+      run3: 690644178
       zerox4sheet_56: 1964584234
       jump11: -1870419020
-      run3: 690644178
+      walljump5: -2074391987
       jump7: 1601887401
       zerox4sheet_86: -762505299
       zerox4sheet_190: 1585151651
       run8: -990306091
       ddash2: 890130218
-      zerox4sheet_182: 1553749866
+      stand: 1553749866
       zerox4sheet_130: 75182312
       jump14: 1175729778
-      zerox4sheet_101: -1662778241
       zerox4sheet_52: 1708232251
+      walljump: 1743522938
       zerox4sheet_9: 1054710058
       zerox4sheet_178: -390352213
       zerox4sheet_0: -553192988
@@ -4253,23 +4253,23 @@ TextureImporter:
       zerox4sheet_112: -762478296
       zerox4sheet_144: 395359589
       dash4: 1491335820
+      walljump8: -1662778241
       zerox4sheet_109: 1920412423
-      zerox4sheet_95: 1788685888
+      walljump6: 45009194
       zerox4sheet_180: -584836739
       hang2: -1454648242
       zerox4sheet_141: -1351978137
       zerox4sheet_129: 485794230
       jump6: -381617184
-      zerox4sheet_99: 45009194
       zerox4sheet_8: 1084735146
       zerox4sheet_157: -1617505566
       zerox4sheet_188: 1154876708
       zerox4sheet_131: -1759434837
       dash2: -1769307412
       zerox4sheet_77: -979717223
+      stand0: 933094163
       zerox4sheet_154: -1774635691
       zerox4sheet_65: 539144521
-      zerox4sheet_100: -182249807
       zerox4sheet_70: -642667218
       zerox4sheet_2: -1156460622
       zerox4sheet_172: -576572653
@@ -4278,7 +4278,7 @@ TextureImporter:
       zerox4sheet_53: -1685532607
       run11: -1290561641
       zerox4sheet_193: -56752777
-      zerox4sheet_94: 1743522938
+      stand2: 764786323
       run10: 366032943
       zerox4sheet_123: 1616701452
       zerox4sheet_103: -247774762
@@ -4300,10 +4300,11 @@ TextureImporter:
       zerox4sheet_13: -879772029
       zerox4sheet_143: 1629845551
       zerox4sheet_168: -355752044
+      stand4: 1112709558
       zerox4sheet_175: -943491728
+      walljump2: 1788685888
       zerox4sheet_85: -1856139229
       zerox4sheet_135: -1031260900
-      zerox4sheet_181: 933094163
       jump3: 1478095315
       zerox4sheet_6: 625488860
       zerox4sheet_105: 1297759843
@@ -4326,25 +4327,22 @@ TextureImporter:
       zerox4sheet_139: -1434647069
       zerox4sheet_4: -1967405004
       run14: 1780853785
-      zerox4sheet_97: -460379994
       zerox4sheet_163: -1861758679
       zerox4sheet_162: -1656724626
       zerox4sheet_7: 460336285
-      zerox4sheet_184: -1597186903
       run13: -568015669
+      walljump4: -460379994
       zerox4sheet_93: -1012186976
       jump16: 1934111786
       run5: 383448788
       jump9: -1884247349
       zerox4sheet_102: -1191142311
-      zerox4sheet_96: -1774392825
       zerox4sheet_18: 755090770
       zerox4sheet_59: -231199570
       zerox4sheet_179: -565444928
       zerox4sheet_142: -6641596
       zerox4sheet_10: -616581058
       zerox4sheet_174: -955986875
-      zerox4sheet_185: 1112709558
       zerox4sheet_158: -1607081273
       zerox4sheet_186: -1470529169
       jump15: -1925831345
@@ -4380,14 +4378,16 @@ TextureImporter:
       dash: 256180829
       zerox4sheet_88: 1805316543
       zerox4sheet_64: 203779646
-      zerox4sheet_98: -2074391987
       jump8: 2138882718
       zerox4sheet_170: -114036225
       zerox4sheet_194: 437782231
+      stand3: -1597186903
       zerox4sheet_164: 131137986
       zerox4sheet_58: 292293718
       hang: 1488205970
+      walljump7: -182249807
       zerox4sheet_54: -1835042180
+      walljump3: -1774392825
       zerox4sheet_104: 747396553
       zerox4sheet_90: 2063604726
       ddash: 873895877

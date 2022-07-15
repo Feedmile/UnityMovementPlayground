@@ -1091,7 +1091,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_47
+      name: Detonation13
       rect:
         serializedVersion: 2
         x: 6
@@ -1112,7 +1112,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_48
+      name: Detonation12
       rect:
         serializedVersion: 2
         x: 56
@@ -1133,7 +1133,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_49
+      name: Detonation11
       rect:
         serializedVersion: 2
         x: 107
@@ -1154,7 +1154,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_50
+      name: Detonation10
       rect:
         serializedVersion: 2
         x: 158
@@ -1175,7 +1175,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_51
+      name: Detonation9
       rect:
         serializedVersion: 2
         x: 216
@@ -1196,7 +1196,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_52
+      name: Detonation
       rect:
         serializedVersion: 2
         x: 278
@@ -1217,7 +1217,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_53
+      name: Detonation2
       rect:
         serializedVersion: 2
         x: 342
@@ -1238,7 +1238,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_54
+      name: Detonation3
       rect:
         serializedVersion: 2
         x: 418
@@ -1259,7 +1259,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_55
+      name: Detonation5
       rect:
         serializedVersion: 2
         x: 508
@@ -1280,7 +1280,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_56
+      name: Detonation6
       rect:
         serializedVersion: 2
         x: 593
@@ -1301,7 +1301,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_57
+      name: Detonation7
       rect:
         serializedVersion: 2
         x: 661
@@ -1322,7 +1322,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_58
+      name: fastJump
       rect:
         serializedVersion: 2
         x: 5
@@ -1343,7 +1343,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_59
+      name: fastJump2
       rect:
         serializedVersion: 2
         x: 62
@@ -1364,7 +1364,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_60
+      name: fastJump3
       rect:
         serializedVersion: 2
         x: 119
@@ -1385,7 +1385,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_61
+      name: fastJump4
       rect:
         serializedVersion: 2
         x: 178
@@ -1406,7 +1406,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_62
+      name: fastJump5
       rect:
         serializedVersion: 2
         x: 239
@@ -1427,7 +1427,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_63
+      name: fastJump6
       rect:
         serializedVersion: 2
         x: 302
@@ -1448,7 +1448,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_64
+      name: fastJump7
       rect:
         serializedVersion: 2
         x: 365
@@ -2372,13 +2372,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_108
+      name: crouch2
       rect:
         serializedVersion: 2
         x: 5
         y: 958
         width: 60
-        height: 31
+        height: 45
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2393,13 +2393,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_109
+      name: crouch3
       rect:
         serializedVersion: 2
         x: 69
         y: 958
         width: 60
-        height: 32
+        height: 45
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2414,13 +2414,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_110
+      name: crouch4
       rect:
         serializedVersion: 2
         x: 139
         y: 956
         width: 72
-        height: 23
+        height: 46
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2435,15 +2435,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_111
+      name: crouch
       rect:
         serializedVersion: 2
         x: 229
         y: 940
         width: 47
-        height: 39
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 54
+      alignment: 9
+      pivot: {x: 0.4607742, y: 0.47636217}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -3590,16 +3590,16 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_166
+      name: stand
       rect:
         serializedVersion: 2
         x: 3
         y: 396
-        width: 55
+        width: 61
         height: 49
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 0, z: 1, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -3611,12 +3611,12 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_167
+      name: stand2
       rect:
         serializedVersion: 2
-        x: 60
+        x: 69
         y: 397
-        width: 70
+        width: 61
         height: 49
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -3632,12 +3632,12 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_168
+      name: stand3
       rect:
         serializedVersion: 2
         x: 135
         y: 398
-        width: 60
+        width: 61
         height: 49
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -3653,12 +3653,12 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Zero Spritesheet_169
+      name: stand4
       rect:
         serializedVersion: 2
         x: 201
         y: 398
-        width: 62
+        width: 61
         height: 49
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -5095,13 +5095,15 @@ TextureImporter:
       Zero Spritesheet_204: -1486772862
       Zero Spritesheet_46: -1922531264
       Zero Spritesheet_73: 13956968
+      Detonation7: 1631540803
+      Detonation9: 2026525629
       Zero Spritesheet_10: 2047519729
       Zero Spritesheet_188: -1390963719
       Zero Spritesheet_35: -821592304
       Zero Spritesheet_180: 871191508
       Zero Spritesheet_12: -674525577
       Zero Spritesheet_6: 294569156
-      Zero Spritesheet_49: 725167974
+      stand: 1346241464
       Zero Spritesheet_190: 491783718
       Zero Spritesheet_32: -357825941
       Zero Spritesheet_16: -1656777673
@@ -5109,6 +5111,7 @@ TextureImporter:
       Zero Spritesheet_40: -1286001613
       Zero Spritesheet_0: -160040280
       Zero Spritesheet_45: -1143658633
+      Detonation: -1551764103
       Zero Spritesheet_18: -1905401964
       Zero Spritesheet_100: 1315317112
       Zero Spritesheet_44: -1530667120
@@ -5119,7 +5122,6 @@ TextureImporter:
       Zero Spritesheet_178: -114274337
       Zero Spritesheet_28: 1526544636
       SJump7: -508225154
-      Zero Spritesheet_110: -1342129605
       Zero Spritesheet_99: 382411538
       Zero Spritesheet_15: 93154362
       Zero Spritesheet_225: -1732963631
@@ -5129,27 +5131,24 @@ TextureImporter:
       Zero Spritesheet_233: -1421857069
       Zero Spritesheet_112: -1344894148
       Zero Spritesheet_206: 225440020
-      Zero Spritesheet_57: 1631540803
       Zero Spritesheet_144: -441793516
+      Detonation2: 1886862733
       Zero Spritesheet_22: -359057790
       Zero Spritesheet_20: -1554205487
       Zero Spritesheet_161: 1779345395
       Zero Spritesheet_218: 285775196
       Zero Spritesheet_232: 2127307066
-      Zero Spritesheet_50: -1084408555
-      Zero Spritesheet_61: 421691022
       Zero Spritesheet_72: -895522723
-      Zero Spritesheet_63: 1325564410
       Zero Spritesheet_138: 1844484504
       Zero Spritesheet_217: -848723822
       Zero Spritesheet_147: 1653285350
       dash4: 1049740811
-      Zero Spritesheet_169: 775839323
+      das: 1491512603
       SJump3: -1614027516
-      Zero Spritesheet_82: 2103698543
       Zero Spritesheet_27: 2030199291
-      Zero Spritesheet_155: 665370767
+      Zero Spritesheet_82: 2103698543
       Zero Spritesheet_183: -2004274986
+      Zero Spritesheet_155: 665370767
       Zero Spritesheet_71: -459966072
       Zero Spritesheet_79: 1860470298
       Zero Spritesheet_107: -2688314
@@ -5166,8 +5165,9 @@ TextureImporter:
       Zero Spritesheet_70: 1463568139
       Zero Spritesheet_146: 1829980950
       Zero Spritesheet_234: -2136106297
-      das: 1491512603
       SJump15: 1998691608
+      Detonation6: 2062617308
+      crouch: -883071366
       Zero Spritesheet_235: 1691822722
       SJump13: 832366994
       Zero Spritesheet_210: -487365545
@@ -5179,7 +5179,7 @@ TextureImporter:
       SJump9: -484546966
       Zero Spritesheet_209: 216717368
       Zero Spritesheet_159: 1606582157
-      Zero Spritesheet_108: 4369869
+      fastJump2: 1910760760
       Zero Spritesheet_31: 819568637
       Zero Spritesheet_154: 2052828100
       Zero Spritesheet_226: -660775230
@@ -5198,33 +5198,34 @@ TextureImporter:
       Zero Spritesheet_30: -88503073
       Zero Spritesheet_81: 1325095922
       Zero Spritesheet_141: 143852880
+      stand2: 286875695
       Zero Spritesheet_92: -1009042225
       Zero Spritesheet_189: 1183945030
       Zero Spritesheet_148: -1406517937
       Zero Spritesheet_43: -621212024
+      crouch3: 1260095172
       Zero Spritesheet_179: 810061194
       Zero Spritesheet_149: 1603592193
-      Zero Spritesheet_51: 2026525629
+      fastJump5: 652203777
       Zero Spritesheet_69: 834995830
       dash3: -1499771065
       Zero Spritesheet_94: 1396697411
-      Zero Spritesheet_53: 1886862733
       Zero Spritesheet_150: 2145486523
+      Detonation13: -985827966
+      stand4: 775839323
       Zero Spritesheet_76: -1099692154
-      Zero Spritesheet_109: 1260095172
       Zero Spritesheet_156: -484593481
-      Zero Spritesheet_64: -1834915679
       Zero Spritesheet_85: 572072193
       Zero Spritesheet_80: -726085743
       Zero Spritesheet_127: -1103968463
-      Zero Spritesheet_54: 1833727836
+      fastJump3: 523907789
+      Detonation5: -936708495
       Zero Spritesheet_175: 1133009964
       Zero Spritesheet_29: 183694284
       Zero Spritesheet_191: -2099547649
       Zero Spritesheet_102: 1472056935
       Zero Spritesheet_11: 160206476
-      Zero Spritesheet_111: -883071366
-      Zero Spritesheet_59: 1910760760
+      fastJump4: 421691022
       Zero Spritesheet_224: 1389904854
       Idle: 1076335477
       Zero Spritesheet_67: 329241337
@@ -5239,7 +5240,6 @@ TextureImporter:
       Zero Spritesheet_34: -1260512343
       Zero Spritesheet_93: -285545717
       Zero Spritesheet_216: 1178076846
-      Zero Spritesheet_47: -985827966
       Zero Spritesheet_230: -769861518
       Zero Spritesheet_228: 2094085826
       Zero Spritesheet_14: 1081861128
@@ -5253,27 +5253,22 @@ TextureImporter:
       Zero Spritesheet_221: 137473163
       Zero Spritesheet_151: -2129835011
       Zero Spritesheet_116: -338707578
-      Zero Spritesheet_167: 286875695
       Zero Spritesheet_86: -1445425682
       Zero Spritesheet_229: 936046587
       Idle5: 584704744
       Zero Spritesheet_78: 35012512
-      Zero Spritesheet_58: -1592342781
-      Zero Spritesheet_166: 1346241464
+      crouch2: 4369869
       Zero Spritesheet_25: -985224521
-      Zero Spritesheet_62: 652203777
       Zero Spritesheet_97: -1174412144
-      Zero Spritesheet_52: -1551764103
       Zero Spritesheet_98: -2091091204
+      fastJump6: 1325564410
       Zero Spritesheet_184: 114777756
       Zero Spritesheet_13: -1801606489
       Zero Spritesheet_101: -1192017744
       Zero Spritesheet_220: -96127729
       Zero Spritesheet_222: -232876401
       Zero Spritesheet_158: 269205299
-      Zero Spritesheet_56: 2062617308
       Zero Spritesheet_66: -648640261
-      Zero Spritesheet_48: -327249004
       Zero Spritesheet_177: -344676073
       Zero Spritesheet_114: -1164488065
       Zero Spritesheet_205: 1294518789
@@ -5282,8 +5277,8 @@ TextureImporter:
       Zero Spritesheet_219: 165175771
       Zero Spritesheet_41: -1404475878
       Zero Spritesheet_103: -868715950
-      Zero Spritesheet_168: -1163971553
       dash6: -907917947
+      Detonation11: 725167974
       Zero Spritesheet_194: 2030491782
       Zero Spritesheet_38: -353361506
       Zero Spritesheet_36: 1278845029
@@ -5293,22 +5288,25 @@ TextureImporter:
       Zero Spritesheet_39: -1007613477
       Zero Spritesheet_142: 2051853320
       Zero Spritesheet_181: 498359010
+      Detonation10: -1084408555
       Zero Spritesheet_207: -2054600080
       SJump2: 1182722087
       Idle4: -1701231393
       dash: 720810548
       SJump5: -319322329
+      fastJump7: -1834915679
       Zero Spritesheet_3: 1822153307
       Zero Spritesheet_65: -372071934
       SJump: -1060338613
+      crouch4: -1342129605
       Zero Spritesheet_23: 1113234728
+      stand3: -1163971553
       SJump8: 267104748
       Zero Spritesheet_153: 2098155355
-      Zero Spritesheet_55: -936708495
       Zero Spritesheet_33: -1693466223
-      Zero Spritesheet_60: 523907789
       Zero Spritesheet_104: 1335884536
       Zero Spritesheet_118: -1939098457
+      Detonation3: 1833727836
       SJump6: 1846703030
       Zero Spritesheet_164: -2004924560
       Zero Spritesheet_2: -905008126
@@ -5318,11 +5316,13 @@ TextureImporter:
       Idle3: -185686020
       Zero Spritesheet_9: -1664257962
       dash5: 616083517
+      fastJump: -1592342781
       Zero Spritesheet_8: 454169219
       Zero Spritesheet_75: 314877562
       Zero Spritesheet_128: 1496921116
       Zero Spritesheet_95: 1205402042
       Zero Spritesheet_106: 442319415
+      Detonation12: -327249004
       Zero Spritesheet_96: -1109401796
       Zero Spritesheet_163: -1505280417
       Zero Spritesheet_90: -281648741
